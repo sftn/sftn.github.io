@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>strings from the network</title>
+    <link href="css/style.css" rel="stylesheet">
+<link href="css/7segments.css" rel="stylesheet">
+    <style type="text/css">
+        body {
+            background: #000000 url("img/7segments.png") no-repeat fixed center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>strings from the network</h1>
+    </header> 
+
+    <nav>
+        <a href="/index.html">home</a>
+        <a href="/about.html">about</a>
+        <a href="/links.html">links</a>
+        <a href="/webring.html">webring</a>
+    </nav>
+
+    
+        <div class="entry">
+            <div class='calc-container'>
+  <canvas id="cvs" width="1000" height="700"></canvas>
+</div>
+
+<script type="text/javascript">
+  //  _  0
+  // |   1
+  //   | 2
+  //  _  3
+  // |   4
+  //   | 5
+  //  _  6
+  let chars = {
+    '.': '0000000',
+    ' ': '0000000',
+    '-': '0001000',
+    '_': '0000001',
+    '\'': '0100000',
+    '?': '1110010',
+    'A': '1111110',
+    'B': '0101111',
+    'C': '1100101',
+    'D': '0011111',
+    'E': '1101101',
+    'F': '1101100',
+    'G': '1100111',
+    'H': '0101110',
+    'I': '0010010',
+    'J': '0010111',
+    'K': '1101110',
+    'L': '0100101',
+    'M': '1000110',
+    'N': '1110110',
+    'O': '1110111',
+    'P': '1111100',
+    'Q': '1111010',
+    'R': '1110100',
+    'S': '1101011',
+    'T': '0101101',
+    'U': '0110111',
+    'V': '0000111',
+    'W': '0110001',
+    'X': '0111110',
+    'Y': '0111011',
+    'Z': '1011101',
+    '0': '1110111',
+    '1': '0010010',
+    '2': '1011101',
+    '3': '1011011',
+    '4': '0111010',
+    '5': '1101011',
+    '6': '1101111',
+    '7': '1010010',
+    '8': '1111111',
+    '9': '1111011',
+  }
+
+  let directions = {
+    'LEFT': 0,
+    'RIGHT': 1,
+    'UP': 2,
+    'DOWN': 3,
+  }
+
+  var canvas = document.getElementById("cvs");
+  var ctx = canvas.getContext("2d");
+
+  function shift_x(segment, by) {
+    segment[0] += by;
+    segment[2] += by;
+    return segment;
+  }
+
+  function shift_y(segment, by) {
+    segment[1] += by;
+    segment[3] += by;
+    return segment;
+  }
+
+  class Segment {
+    static onColor = "#e89173";
+    static offColor = "#e8917344";
+
+    constructor(x1, y1, x2, y2) {
+      this.x1 = x1;
+      this.y1 = y1;
+      this.x2 = x2;
+      this.y2 = y2;
+      this.state;
+      this.color;
+    }
+
+    from() {
+      return [this.x1, this.y1];
+    }
+
+    to() {
+      return [this.x2, this.y2];
+    }
+
+    shift(by_x = 0, by_y = 0) {
+      this.x1 += by_x;
+      this.x2 += by_x;
+      this.y1 += by_y;
+      this.y2 += by_y;
+    }
+
+    on() {
+      this.state = 1;
+      this.color = Segment.onColor;
+    }
+
+    off() {
+      this.state = 0;
+      this.color = Segment.offColor;
+    }
+  }
+
+  class Digit {
+    constructor(x, y, size, spacing) {
+      this.value = '.';
+      this.x = x;
+      this.y = y;
+      this.size = size;
+      this.spacing = spacing;
+      this.segments = [
+        new Segment(x, y, x + size, y),                          //  _  0
+        new Segment(x, y, x, y + size),                          // |   1
+        new Segment(x + size, y, x + size, y + size),            //   | 2
+        new Segment(x, y + size, x + size, y + size),            //  _  3
+        new Segment(x, y + size, x, y + 2 * size),               // |   4
+        new Segment(x + size, y + size, x + size, y + 2 * size), //   | 5
+        new Segment(x, y + 2 * size, x + size, y + 2 * size)     //  _  6
+      ]
+
+      for (let i = 0; i < this.segments.length; i++) {
+        this.segments[i].off();
+      }
+
+      shift_x(this.segments[0], spacing);
+      this.segments[0].shift(spacing, 0);
+      this.segments[1].shift(0, spacing);
+      this.segments[2].shift(2 * spacing, spacing);
+      this.segments[3].shift(spacing, 2 * spacing);
+      this.segments[4].shift(0, 3 * spacing);
+      this.segments[5].shift(2 * spacing, 3 * spacing);
+      this.segments[6].shift(spacing, 4 * spacing);
+
+      this.size_x = size + 2 * spacing;
+      this.size_y = 2 * size + 4 * spacing;
+    }
+
+    draw() {
+      ctx.clearRect(
+        this.x - ctx.lineWidth, 
+        this.y - ctx.lineWidth,
+        this.size_x + 2 * ctx.lineWidth, 
+        this.size_y + 2 * ctx.lineWidth
+      );
+      let coords, segment, from, to;
+      for (let i=0; i < this.segments.length; i++) {
+        segment = this.segments[i];
+        from = segment.from();
+        to   = segment.to();
+        ctx.beginPath();
+        ctx.strokeStyle = segment.color;
+        ctx.moveTo(from[0], from[1]);
+        ctx.lineTo(to[0], to[1]);
+        ctx.stroke();
+        ctx.closePath();
+      }
+    }
+
+    set_value(value) {
+      value = value.toUpperCase();
+      this.value = value;
+      let char = chars[value];
+      if (char == null) {
+        char = chars[' '];
+      }
+      for (let i = 0; i < char.length; i++) {
+        if (char[i] == '0') {
+          this.segments[i].off();
+        }
+        else {
+          this.segments[i].on();
+        }
+      }
+      this.draw();
+    }
+  }
+
+  class Display {
+    constructor(rows, cols, base, segment_size, segment_spacing, digit_spacing) {
+      this.base = base;
+      this.rows = rows;
+      this.cols = cols;
+
+      this.segment_size = segment_size;
+      this.segment_spacing = segment_spacing;
+      this.digit_spacing = digit_spacing;
+
+      this.matrix = []
+
+      let digit, x, y;
+      let current = [...this.base];
+      for (let r = 0; r < rows; r++) {
+        this.matrix.push([])
+        for (let c = 0; c < cols; c++) {
+          x = current[0];
+          y = current[1];
+
+          digit = new Digit(x, y, segment_size, segment_spacing);
+          this.matrix[r].push(digit);
+
+          current[0] += digit.size_x + ctx.lineWidth + this.digit_spacing;
+        }
+        current[0] = this.base[0]
+        current[1] += digit.size_y + ctx.lineWidth + this.digit_spacing;
+      }
+
+      this.cursor = [0, 0];
+      this.cursor_on();
+    }
+
+    draw() {
+      for (let r = 0; r < this.rows; r++) {
+        for (let c = 0; c < this.cols; c++) {
+          this.matrix[r][c].draw()
+        }
+      }
+    }
+
+    cursor_off() {
+      let state = this.matrix[this.cursor[0]][this.cursor[1]].segments[6].state;
+      if (state == 1) {
+        this.matrix[this.cursor[0]][this.cursor[1]].segments[6].color = Segment.onColor;  
+      } else {
+        this.matrix[this.cursor[0]][this.cursor[1]].segments[6].color = Segment.offColor;
+      }
+      this.matrix[this.cursor[0]][this.cursor[1]].draw();
+    }
+
+    cursor_on() {
+      this.matrix[this.cursor[0]][this.cursor[1]].segments[6].color = Segment.onColor;
+      this.matrix[this.cursor[0]][this.cursor[1]].draw();
+    }
+
+    move_cursor(direction) {
+      this.cursor_off();
+      let l_extr = this.cursor[0] == 0 && this.cursor[1] == 0;
+      let r_extr = this.cursor[0] == this.rows - 1 && this.cursor[1] == this.cols - 1;
+      switch (direction) {
+        case directions['LEFT']:
+          if (l_extr) break;
+          if (this.cursor[1] == 0) {
+            this.cursor[1] = this.cols - 1;
+            this.move_cursor(directions['UP']);
+          } else {
+            this.cursor[1] -= 1;  
+          }
+          break;
+
+        case directions['RIGHT']:
+          if (r_extr) break;
+          if (this.cursor[1] == this.cols - 1) {
+            this.cursor[1] = 0;
+            this.move_cursor(directions['DOWN']);
+          } else {
+            this.cursor[1] += 1;  
+          }
+          break;
+
+        case directions['UP']:
+          if (this.cursor[0] == 0) break;
+          this.cursor[0] -= 1;
+          break;
+
+        case directions['DOWN']:
+          if (this.cursor[0] == this.rows - 1) break;
+          this.cursor[0] += 1;
+          break;
+      }
+      this.cursor_on();
+    }
+
+    write_at_cursor(value) {
+      this.matrix[this.cursor[0]][this.cursor[1]].set_value(value)
+    }
+
+    write_digit(row, col, value) {
+      this.matrix[row][col].set_value(value);
+    }
+
+    write(values) {
+      values = values.toString();
+      let r, c;
+      for (let i = 0; i < Math.min(values.length, this.cols * this.rows); i++) {
+        r = Math.floor(i / this.cols);
+        c = i % this.cols;
+        this.matrix[r][c].set_value(values[i]);  
+      }
+    }
+
+    write_row(row, values) {
+      values = values.toString();
+      for (let i = 0; i < Math.min(values.length, this.cols); i++) {
+        this.matrix[row][i].set_value(values[i]);  
+      }
+    }
+
+    write_col(col, values) {
+      values = values.toString();
+      for (let i = 0; i < values.length; i++) {
+        this.matrix[i][col].set_value(values[i]);  
+      }
+    }
+
+    clear() {
+      this.write(' '.repeat(this.rows * this.cols));  
+    }
+
+
+  }
+
+  let rows = 10;
+  let cols = 25;
+  let base = [10, 10];
+  let digit_spacing = 10;
+  let segment_size = 15;
+  let segment_width = 5
+  let segment_spacing = 5;
+
+  ctx.lineWidth = segment_width;
+  ctx.lineCap = "round";
+
+  let disp = new Display(
+    rows, cols, base, segment_size, segment_spacing, digit_spacing);
+  disp.draw()
+
+</script>
+
+<script type="text/javascript">
+
+window.onkeypress = function(event) {
+  switch (event.key) {
+    case 'ArrowLeft':
+      disp.move_cursor(directions['LEFT']);
+      break;
+    case 'ArrowUp':
+      disp.move_cursor(directions['UP']);
+      break;
+    case 'ArrowRight':
+      disp.move_cursor(directions['RIGHT']);
+      break;
+    case 'ArrowDown':
+      disp.move_cursor(directions['DOWN']);
+      break;
+    case 'Backspace':
+      disp.move_cursor(directions['LEFT']);
+      disp.write_at_cursor('.');
+      disp.cursor_on();
+      break;
+    case 'Enter':
+      disp.move_cursor(directions['DOWN'])
+      disp.cursor_off();
+      disp.cursor[1] = 0;
+      disp.cursor_on();
+      break;
+    default:
+      console.log(event.key)
+      disp.write_at_cursor(event.key);
+      disp.move_cursor(directions['RIGHT']);
+  }
+};
+</script>
+        </div>
+
+</body>
+</html>

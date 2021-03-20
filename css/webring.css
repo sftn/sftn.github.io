@@ -1,0 +1,10 @@
+.webring-banner {
+    width: 240px;
+    height: 60px;
+    padding: 0;
+}
+
+body {
+    max-width: 1035px !important;
+    background: #000 url(../img/rain_3.gif) repeat !important;
+}

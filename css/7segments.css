@@ -1,0 +1,36 @@
+body {
+    max-width: 1050px !important;
+    background: #000 url(../img/rain_2.gif) repeat !important;
+}
+
+.entry {
+    overflow: hidden;
+}
+
+#cvs {
+    max-height: 700px !important;
+}
+
+.calc-container {
+    display: flex;
+}
+
+.commands-container {
+    display: block;
+}
+
+#textinput {
+    border: 1px solid #e89173;
+    line-height: 1.6;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 18px;
+    color: #e89173;
+    width: 450px;
+    background: transparent;
+    color: inherit !important;
+}
+
+:focus {
+    border: 1px solid #e89173 !important;
+    outline: none;
+}

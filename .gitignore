@@ -1,0 +1,17 @@
+*
+!.gitignore
+!index.html
+!about.html
+!links.html
+!7segments.html
+!webring.html
+!img
+!img/*
+!img/banners
+!img/banners/*
+!css
+!css/*
+!build
+!build/*
+!build/posts
+!build/posts/*
