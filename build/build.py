@@ -112,3 +112,7 @@ write_html(content, 'webring', ['css/style.css', 'css/webring.css'])
 # Calc
 content = build_general('7segments.md')
 write_html(content, '7segments', ['css/style.css', 'css/7segments.css'])
+
+# Calc
+content = build_general('darkness.md')
+write_html(content, 'darkness', ['css/style.css', 'css/darkness.css'])
