@@ -5,11 +5,15 @@
 !links.html
 !7segments.html
 !darkness.html
+!museum.html
 !webring.html
 !img
 !img/*
 !img/banners
 !img/banners/*
+!img/museum
+!img/museum/*
+!img/museum/*/*
 !css
 !css/*
 !build

@@ -1,6 +1,7 @@
 ## sftn
 <a href="/7segments.html">7-segment display</a><br>
-<a href="/darkness.html">darkness</a>
+<a href="/darkness.html">darkness</a><br>
+<a href="/museum.html">museum</a>
 
 ## boards
 <a href="http://0chan.vip/">0chan</a><br>
