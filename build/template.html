@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>strings from the network</title>
+    <!-- CSS -->
+    <style type="text/css">
+        body {
+            background: #000000 url("img/BACKGROUND.png") no-repeat fixed center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>strings from the network</h1>
+    </header> 
+
+    <nav>
+        <a href="/index.html">home</a>
+        <a href="/about.html">about</a>
+        <a href="/links.html">links</a>
+        <a href="/webring.html">webring</a>
+    </nav>
+
+    <!-- CONTENT -->
+
+    <div class="entry">
+    This page has been viewed <span id="visits">??</span> times.
+    </div>
+    <script>
+    function cb(response) {
+        document.getElementById('visits').innerText = response.value;
+    }
+    </script>
+    <script async src="https://api.countapi.xyz/hit/sftn.github.io/visits?callback=cb"></script>
+</body>
+</html>
