@@ -96,23 +96,3 @@ def write_html(content, pagename, css):
 # Index
 content = build_index()
 write_html(content, 'index', ['css/style.css'])
-
-# About
-content = build_general('about.md')
-write_html(content, 'about', ['css/style.css'])
-
-# Links
-content = build_general('links.md')
-write_html(content, 'links', ['css/style.css'])
-
-# Webring
-content = build_general('webring.md')
-write_html(content, 'webring', ['css/style.css', 'css/webring.css'])
-
-# Calc
-content = build_general('7segments.md')
-write_html(content, '7segments', ['css/style.css', 'css/7segments.css'])
-
-# Calc
-content = build_general('darkness.md')
-write_html(content, 'darkness', ['css/style.css', 'css/darkness.css'])

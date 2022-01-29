@@ -5,7 +5,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>strings from the network</title>
     <link href="css/style.css" rel="stylesheet">
-<link href="css/museum.css" rel="stylesheet">
+    <style type="text/css">
+        body {
+            background: #000 url(../img/stars.jpg) repeat !important;
+            max-width: 1035px !important;
+        }
+
+        .row {
+          display: flex;
+          flex-wrap: wrap;
+          padding: 0 4px;
+          justify-content: center;
+        }
+
+        .column {
+          flex: 50%;
+          max-width: 45%;
+          padding: 0 10px;
+        }
+
+        .column-full {
+          flex: 100%;
+          max-width: 90%;
+          padding: 0 10px;
+        }
+
+        .column img, .column-full img {
+          margin-top: 10px;
+          margin-bottom: 10px;
+          vertical-align: middle;
+          width: 100%;
+        }
+
+        @media screen and (max-width: 600px) {
+          .column {
+            flex: 100%;
+            max-width: 100%;
+          }
+        }
+
+        .museum-img {
+          max-width: 300px;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -20,34 +62,34 @@
     </nav>
 
     <div class="entry">
-            <ul>
-                <li><a href="#web">from the web</a></li>
-                <li><a href="#xp">windows xp leak</a></li>
-                <li><a href="#bladerunner">blade runner</a></li>
-            </ul>
-        </div>
+        <ul>
+            <li><a href="#web">from the web</a></li>
+            <li><a href="#xp">windows xp leak</a></li>
+            <li><a href="#bladerunner">blade runner</a></li>
+        </ul>
+    </div>
 
     
     <div class="entry" id="web">  
-    <p>from the web</p>
-    <div class="row">
-    <div class="column">
-        <img src="img/museum/blinkenlights.gif">
-        <img src="img/museum/vaporwave_empire.jpg">
-        <img src="img/museum/amore_e_psiche.jpg">
-        <img src="img/museum/pokedex.gif">
-    </div>
-    <div class="column">
-        <img src="img/museum/silphwave.jpg">
-        <img src="img/museum/forest_intelligence.jpg">
-        <img src="img/museum/macintosh.png">
-        <img src="img/museum/conversation_pits.jpg">
-    </div>
-    </div>
+        <p>from the web</p>
+        <div class="row">
+            <div class="column">
+                <img src="img/museum/blinkenlights.gif">
+                <img src="img/museum/vaporwave_empire.jpg">
+                <img src="img/museum/amore_e_psiche.jpg">
+                <img src="img/museum/pokedex.gif">
+            </div>
+            <div class="column">
+                <img src="img/museum/silphwave.jpg">
+                <img src="img/museum/forest_intelligence.jpg">
+                <img src="img/museum/macintosh.png">
+                <img src="img/museum/conversation_pits.jpg">
+            </div>
+        </div>
     </div>
 
     <div class="entry" id="xp">  
-    <p>windows xp leak</p> 
+        <p>windows xp leak</p> 
         <img class="museum-img" src="img/museum/xp/11.png">
         <img class="museum-img" src="img/museum/xp/06.gif">
         <img class="museum-img" src="img/museum/xp/25.jpg">
@@ -75,18 +117,18 @@
     </div>
 
     <div class="entry" id="bladerunner">  
-    <p>blade runner</p>
-    <div class="row">  
-    <div class="column-full">
-        <img src="img/museum/bladerunner/01.jpg">
-        <img src="img/museum/bladerunner/02.jpg">
-        <img src="img/museum/bladerunner/03.jpg">
-        <img src="img/museum/bladerunner/04.jpg">
-        <img src="img/museum/bladerunner/05.jpg">
-        <img src="img/museum/bladerunner/06.jpg">
-        <img src="img/museum/bladerunner/07.jpg">
-    </div>
-    </div>
+        <p>blade runner</p>
+        <div class="row">  
+        <div class="column-full">
+            <img src="img/museum/bladerunner/01.jpg">
+            <img src="img/museum/bladerunner/02.jpg">
+            <img src="img/museum/bladerunner/03.jpg">
+            <img src="img/museum/bladerunner/04.jpg">
+            <img src="img/museum/bladerunner/05.jpg">
+            <img src="img/museum/bladerunner/06.jpg">
+            <img src="img/museum/bladerunner/07.jpg">
+        </div>
+        </div>
     </div>
 
 </body>
