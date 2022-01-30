@@ -74,5 +74,15 @@
         <a href="https://geekring.net/">geekring</a><br></p>
     </div>
 
+    <div class="entry">
+        This page has been viewed <span id="visits">?</span> times.
+    </div>
+    <script>
+        function cb(response) {
+            document.getElementById('visits').innerText = response.value;
+        }
+    </script>
+    <script async src="https://api.countapi.xyz/hit/sftn.github.io/links?callback=cb"></script>
+
 </body>
 </html>
