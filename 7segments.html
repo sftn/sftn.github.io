@@ -3,7 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>strings from the network</title>
+    <title>SFTN - 7SD</title>
+    <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
     <link href="css/style.css" rel="stylesheet">
     <link href="css/7segments.css" rel="stylesheet">
     <style type="text/css">
@@ -17,7 +18,7 @@
         }
 
         #cvs {
-            max-height: 700px !important;
+            max-height: 600px !important;
         }
 
         .calc-container {
@@ -59,7 +60,7 @@
 
     <div class="entry">
         <div class='calc-container'>
-          <canvas id="cvs" width="1000" height="700"></canvas>
+          <canvas id="cvs" width="1000" height="600 "></canvas>
         </div>
 
         <script type="text/javascript">
@@ -379,11 +380,9 @@
             clear() {
               this.write(' '.repeat(this.rows * this.cols));  
             }
-
-
           }
 
-          let rows = 10;
+          let rows = 9;
           let cols = 25;
           let base = [10, 10];
           let digit_spacing = 10;
@@ -402,7 +401,7 @@
 
         <script type="text/javascript">
 
-        window.onkeypress = function(event) {
+        window.onkeydown = function(event) {
           switch (event.key) {
             case 'ArrowLeft':
               disp.move_cursor(directions['LEFT']);
@@ -429,8 +428,10 @@
               break;
             default:
               console.log(event.key)
-              disp.write_at_cursor(event.key);
-              disp.move_cursor(directions['RIGHT']);
+              if (event.key.toUpperCase() in chars) {
+                disp.write_at_cursor(event.key);
+                disp.move_cursor(directions['RIGHT']);
+              }
           }
         };
         </script>
