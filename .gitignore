@@ -18,6 +18,8 @@
 !img/museum/*/*
 !css
 !css/*
+!js
+!js/*
 !build
 !build/*
 !build/posts
