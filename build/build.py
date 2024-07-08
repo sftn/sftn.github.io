@@ -35,7 +35,7 @@ def build_index():
 
     index_title_html_fmt = '<li><a href="#{0}">{0}</a></li>'
     index_html_fmt = '''
-        <div class="entry">
+        <div class="entry" id="index">
             <h2>index</h2>
             <p>
             <ul>

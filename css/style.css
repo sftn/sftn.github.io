@@ -43,11 +43,7 @@ nav {
     padding-bottom: 10px;
 }
 
-ul a {
-  text-decoration: none;
-}
-
-ul{
+ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
@@ -63,4 +59,23 @@ ul{
 
 .entry h2 {
     word-break: break-all;
+}
+
+#index a {
+    text-decoration: none;
+}
+
+#index li {
+    display: inline-block;
+}
+
+#index li a {
+    border: 1px solid;
+    padding: 3px 10px;
+    display: inline-block;
+    margin: 0px 0px 10px 0px;
+}
+
+#index li a:hover {
+    outline: 1px solid;
 }
